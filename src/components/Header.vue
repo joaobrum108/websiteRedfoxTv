@@ -31,22 +31,21 @@ onUnmounted(() => {
         <RouterLink to="/" class="nav-link">
           <p class="menu-item">Home</p>
         </RouterLink>
-        <RouterLink to="/apresentador/adilsonjr" class="nav-link">
-          <p class="menu-item">Adilson Jr</p>
+        <RouterLink to="/canal/RedfoxConecta" class="nav-link">
+          <p class="menu-item">Redfox Conecta</p>
         </RouterLink>
-        <RouterLink to="/apresentador/alexpet" class="nav-link">
-          <p class="menu-item">Alex Pet</p>
+        <RouterLink to="/canal/redfoxSport" class="nav-link">
+          <p class="menu-item"> Redfox Sport</p>
         </RouterLink>
-        <RouterLink to="/apresentador/GeraldoSapao" class="nav-link">
-          <p class="menu-item">Geraldo</p>
+        <router-link to="/canal/redfoxJornalismo" class="nav-link"><p class="menu-item">Redfox Jornalismo</p></router-link>
+        <RouterLink to="/canal/redfoxPets" class="nav-link">
+          <p class="menu-item">Redfox Pets</p>
         </RouterLink>
       </v-col>
-
       <v-col cols="auto">
         <a href="https://www.youtube.com/@redfoxtvoficial" class="watch-link" target="_blank" rel="noopener noreferrer">
            <p class="watch-btn">Assista Agora</p>
         </a>
-
       </v-col>
     </v-container>
   </header>

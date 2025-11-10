@@ -1,6 +1,6 @@
 <template>
   <v-main style="position: relative;">
-    
+    <!-- Seção de boas-vindas -->
     <section class="home-section">
       <v-container class="d-flex align-center justify-center" style="height: 100%;">
         <v-row class="d-flex align-center justify-center" style="height: 100%;">
@@ -11,14 +11,12 @@
                   Bem-vindo à <span style="color: #e70038;">RedFox TV</span>
                 </h1>
               </v-col>
-              
               <v-col cols="12" md="8">
                 <p class="text-body-1 text-md-h5" style="color: #F5F5F5;">
                   Sua plataforma de entretenimento com programação diversificada e conteúdo de qualidade. 
                   Descubra nossos canais e encontre o que mais combina com você.
                 </p>
               </v-col>
-              
               <v-col cols="12">
                 <v-row class="d-flex justify-center" dense>
                   <v-col cols="auto">
@@ -26,7 +24,6 @@
                       Conheça Nossos Canais
                     </v-btn>
                   </v-col>
-                  
                   <v-col cols="auto">
                     <v-btn class="btn2" outlined style="text-transform: capitalize;" size="large">
                       Assista Agora
@@ -40,11 +37,14 @@
       </v-container>
     </section>
 
+    <!-- Seção de canais -->
     <section class="home-section-2">
       <v-container>
         <v-row>
           <v-col cols="12" class="text-center">
-            <h2 class="text-lg-h2 text-h3 text-md-h2" style="font-weight: 600;">Nossos <span style="color: #e70038;">Canais</span></h2>
+            <h2 class="text-lg-h2 text-h3 text-md-h2" style="font-weight: 600;">
+              Nossos <span style="color: #e70038;">Canais</span>
+            </h2>
             <br>
             <p class="text-body-1 text-md-h5">
               Conteúdo diversificado para todos os gostos. Escolha seu favorito e 
@@ -53,11 +53,11 @@
             </p>
           </v-col>
         </v-row>
-        
+
         <v-row dense class="d-flex align-center justify-center pt-8">
           <v-col
-            v-for="apresentador in apresentadores"
-            :key="apresentador.id"
+            v-for="canal in canais"
+            :key="canal.id"
             cols="12"
             sm="6"
             md="4"
@@ -73,18 +73,18 @@
                 <v-img
                   :width="500"
                   :height="430"
-                  :src="apresentador.imagem"
+                  :src="canal.imagem"
                   class="card-image"
                 >
                   <v-container class="card-overlay" align="end">
                     <v-chip 
                       variant="elevated"
-                      :color="apresentador.corChip || '#e70038'" 
+                      :color="canal.corChip || '#e70038'" 
                       text-color="white" 
                       style="text-transform: capitalize;font-weight: bold;" 
                       small
                     >
-                      {{ apresentador.chip }}
+                      {{ canal.chip }}
                     </v-chip>
                   </v-container>
                 </v-img>
@@ -93,19 +93,19 @@
                   <p class="hover-text">Ver Canal</p>
                 </div>
               </div>
-              
+
               <v-card-title style="font-weight: bold;white-space: pre-wrap;" class="justify-center text-h5 text-left">
-                {{ apresentador.titulo }}
+                {{ canal.titulo }}
               </v-card-title>
-              
+
               <v-card-subtitle class="text-left" style="white-space: pre-line; line-height: 1.3;">
-                {{ apresentador.subtitulo }}
+                {{ canal.subtitulo }}
               </v-card-subtitle>
-              
+
               <v-card-actions class="justify-center">
                 <v-btn 
                   class="btn-apresentador"
-                  :to="`/apresentador/${apresentador.id}`" 
+                  :to="`/canal/${canal.id}`" 
                   color="#e70038" 
                   style="text-transform: capitalize; border: #e70038 1px solid; width: 100%;"
                 >
@@ -122,7 +122,10 @@
 
 <script setup>
 import apresentadores from '../data/apresentadores'
+
+const canais = Object.values(apresentadores.canais)
 </script>
+
 
 <style scoped>
 

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory} from 'vue-router';
 
 import LayoutHome from './layouts/LayoutHome.vue';
-import ApresentadorPage from './layouts/layoutApresentadores.vue';
+import CanaisPages from './layouts/canaisLayout.vue';
 
 const routes = [
   {
@@ -9,9 +9,9 @@ const routes = [
     component: LayoutHome
   },
    {
-    path: '/apresentador/:id',
-    name: 'Apresentador',
-    component: ApresentadorPage
+    path: '/canal/:id',
+    name: 'canal',
+    component: CanaisPages
   }
 ];
 
