@@ -182,7 +182,7 @@ watch(() => route.params.id, async (novoId) => {
   max-width: 450px;
   height: auto;
   border-radius: 32px;
-  box-shadow: red 0px 4px 60px -2px;
+  /* box-shadow: red 0px 4px 60px -2px; */
 }
 
 .titulo-principal {
@@ -202,7 +202,7 @@ watch(() => route.params.id, async (novoId) => {
   max-width: 234px;
   height: auto;
   min-height: 100px;
-  max-height: 120px;
+  max-height: 140px;
   border-radius: 20px;
   height: 200px;
 }

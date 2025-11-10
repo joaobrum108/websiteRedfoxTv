@@ -2,7 +2,7 @@
     <v-container fluid>
         <v-row align="center" justify="center" class="d-flex align-center justify-center text-center">
             <v-col cols="12" class="text-center">
-                <p style="color: #737373;">&copy; 2024 RedFox TV. Todos os direitos reservados.</p>
+                <p style="color: #737373;">&copy; 2025 RedFox TV. Todos os direitos reservados.</p>
             </v-col>
         </v-row>
     </v-container>

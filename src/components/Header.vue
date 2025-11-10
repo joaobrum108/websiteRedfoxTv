@@ -43,9 +43,10 @@ onUnmounted(() => {
       </v-col>
 
       <v-col cols="auto">
-        <RouterLink to="/assistir" class="watch-link">
-          <p class="watch-btn">Assista Agora</p>
-        </RouterLink>
+        <a href="https://www.youtube.com/@redfoxtvoficial" class="watch-link" target="_blank" rel="noopener noreferrer">
+           <p class="watch-btn">Assista Agora</p>
+        </a>
+
       </v-col>
     </v-container>
   </header>
@@ -56,9 +57,15 @@ onUnmounted(() => {
       <img src="../assets/redfoxtv.png" class="logo-mobile" alt="Red Fox TV">
     </router-link>
     
-    <RouterLink to="/assistir" class="watch-link">
-      <p class="watch-btn-mobile">Assista Agora</p>
-    </RouterLink>
+    <v-btn
+      class="watch-btn-mobile"
+       href="https://www.youtube.com/@redfoxtvoficial"
+       target="_blank"
+      rel="noopener noreferrer"
+>
+  <p>Assista Agora</p>
+</v-btn>
+
   </v-container>
 </header>
 </template>
