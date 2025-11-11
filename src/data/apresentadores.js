@@ -75,7 +75,7 @@ export default {
       id: 'redfoxSport',
       chip: 'Esportes',
       titulo: 'RedFox Sports: Onde a Paixão pelo Esporte Encontra a Inovação',
-      subtitulo: 'Do campo à tela — descubra as ferramentas, estratégias e histórias que movem o mundo esportivo na era digital.',
+      subtitulo: 'Descubra as ferramentas, estratégias e histórias que movem o mundo esportivo na era digital — com quem entende do jogo dentro e fora das câmeras.',
       dialogoHorarios: 'Segunda, Quarta e Sexta às 18h',
       dialogoDuracao: '60 minutos',
       imagem: sports,
