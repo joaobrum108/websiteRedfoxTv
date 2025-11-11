@@ -1,6 +1,6 @@
 <template>
   <v-main style="position: relative;">
-    <!-- Seção de boas-vindas -->
+    <!-- Seção Hero (mantida igual) -->
     <section class="home-section">
       <v-container class="d-flex align-center justify-center" style="height: 100%;">
         <v-row class="d-flex align-center justify-center" style="height: 100%;">
@@ -37,7 +37,7 @@
       </v-container>
     </section>
 
-    <!-- Seção de canais -->
+    <!-- Seção Canais - CORRIGIDA -->
     <section class="home-section-2">
       <v-container>
         <v-row>
@@ -54,67 +54,74 @@
           </v-col>
         </v-row>
 
-        <v-row dense class="d-flex align-center justify-center pt-8">
-          <v-col
-            v-for="canal in canais"
-            :key="canal.id"
-            cols="12"
-            sm="6"
-            md="4"
-            lg="3"
-          >
-            <v-card 
-              class="apresentador-card mx-auto" 
-              max-width="429" 
-              style="border: #222222 1px solid; border-radius: 16px;" 
-              outlined
+
+          <v-row class="d-flex justify-center" dense>
+    <v-col
+      v-for="canal in canais"
+      :key="canal.id"
+      cols="12"
+      sm="10"
+      md="6"
+      lg="4"
+      xl="3"
+      class="d-flex justify-center"
+    >
+      <v-card 
+        class="apresentador-card d-flex flex-column"
+        style="border: #222222 1px solid; border-radius: 16px; width: 100%; max-width: 400px; min-height: 574px;" 
+        outlined
+      >
+
+        <div class="flex-grow-1">
+          <div class="card-image-container">
+            <v-img
+              :src="canal.imagem"
+              class="card-image"
+              aspect-ratio="1.2"
+              cover
             >
-              <div class="card-image-container">
-                <v-img
-                  :width="500"
-                  :height="430"
-                  :src="canal.imagem"
-                  class="card-image"
+              <v-container class="card-overlay" align="end">
+                <v-chip 
+                  variant="elevated"
+                  :color="canal.corChip || '#e70038'" 
+                  text-color="white" 
+                  style="text-transform: capitalize;font-weight: bold;" 
+                  small
                 >
-                  <v-container class="card-overlay" align="end">
-                    <v-chip 
-                      variant="elevated"
-                      :color="canal.corChip || '#e70038'" 
-                      text-color="white" 
-                      style="text-transform: capitalize;font-weight: bold;" 
-                      small
-                    >
-                      {{ canal.chip }}
-                    </v-chip>
-                  </v-container>
-                </v-img>
-                <div class="card-hover-overlay">
-                  <v-icon size="48" color="white">mdi-play-circle-outline</v-icon>
-                  <p class="hover-text">Ver Canal</p>
-                </div>
-              </div>
+                  {{ canal.chip }}
+                </v-chip>
+              </v-container>
+            </v-img>
+            <div class="card-hover-overlay">
+              <v-icon size="48" color="white">mdi-play-circle-outline</v-icon>
+              <p class="hover-text">Ver Canal</p>
+            </div>
+          </div>
 
-              <v-card-title style="font-weight: bold;white-space: pre-wrap;" class="justify-center text-h5 text-left">
-                {{ canal.titulo }}
-              </v-card-title>
+          <v-card-title style="font-weight: bold;white-space: pre-wrap;" class="justify-center text-h5 text-left px-4 pt-4">
+            {{ canal.titulo }}
+          </v-card-title>
 
-              <v-card-subtitle class="text-left" style="white-space: pre-line; line-height: 1.3;">
-                {{ canal.subtitulo }}
-              </v-card-subtitle>
+          <v-card-subtitle class="text-left card-subtitle px-4" style="white-space: pre-line; line-height: 1.3;">
+            {{ canal.subtitulo }}
+          </v-card-subtitle>
+        </div>
 
-              <v-card-actions class="justify-center">
-                <v-btn 
-                  class="btn-apresentador"
-                  :to="`/canal/${canal.id}`" 
-                  color="#e70038" 
-                  style="text-transform: capitalize; border: #e70038 1px solid; width: 100%;"
-                >
-                  Assistir Agora
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
+
+        <v-card-actions class="justify-center pa-4 mt-auto">
+          <v-btn 
+            class="btn-apresentador"
+            :to="`/canal/${canal.id}`" 
+            color="#e70038" 
+            style="text-transform: capitalize; border: #e70038 1px solid; width: 100%;"
+            size="large"
+          >
+            Saiba Mais
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-col>
+  </v-row>
       </v-container>
     </section>
   </v-main>
@@ -126,8 +133,17 @@ import apresentadores from '../data/apresentadores'
 const canais = Object.values(apresentadores.canais)
 </script>
 
-
 <style scoped>
+
+
+/* .card-subtitle {
+  display: -webkit-box;
+  -webkit-line-clamp:6;
+  line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} */
 
 .btn1 {
   box-shadow: red 0px 4px 20px -5px;
@@ -162,6 +178,7 @@ const canais = Object.values(apresentadores.canais)
   overflow: hidden;
   background: #1a1a1a !important;
   position: relative;
+
 
 }
 
@@ -280,7 +297,6 @@ const canais = Object.values(apresentadores.canais)
 .apresentador-card:hover::after {
   opacity: 1;
 }
-
 
 .home-section-2 {
   background-color: #121212;
