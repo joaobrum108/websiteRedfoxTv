@@ -63,7 +63,7 @@ watch(() => route.params.id, async (novoId, antigoId) => {
 
 <template>
   <div v-if="dados && Object.keys(dados).length">
-    <section style="max-height: 90vh;">
+    <section style="min-height: 90vh;">
       <v-container
         fluid
         style="height: auto; width: 100%; min-height: 90vh;  display: flex; align-items: center; justify-content: center;"
@@ -108,13 +108,6 @@ watch(() => route.params.id, async (novoId, antigoId) => {
                 </v-sheet>
               </v-col>
 
-              <v-col cols="auto">
-                <v-sheet elevation="10" class="pa-4 card-item2">
-                  <v-icon color="red">mdi-calendar-clock</v-icon>
-                  <p class="text-subtitle-1 font-weight-medium text-left">Duração</p>
-                  <h3 class="text-left">{{ dados.dialogoDuracao || '' }}</h3>
-                </v-sheet>
-              </v-col>
             </v-row>
 
             <v-row class="mt-4">
@@ -123,10 +116,10 @@ watch(() => route.params.id, async (novoId, antigoId) => {
                   class="btn1"
                   color="primary"
                   variant="elevated"
-                  :href="`https://www.youtube.com/playlist?list=${dados.playlistId}`"
+                  :href="`https://linktr.ee/redfoxtv`"
                   target="_blank"
                 >
-                  Assista Agora
+                  Explorar mais
                 </v-btn>
               </v-col>
               <v-col cols="auto">
