@@ -129,9 +129,9 @@
 
 
 <script setup>
-import apresentadores from '../data/apresentadores'
+import programasDoCanal from '../data/canais'
 
-const canais = Object.values(apresentadores.canais)
+const canais = Object.values(programasDoCanal.canais)
 </script>
 
 <style scoped>

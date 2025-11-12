@@ -1,7 +1,8 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import apresentadores from '../data/apresentadores'
+import data from '../data/canais'
+import dataApr from '../data/apresentadores'
 import { usePodcastStore } from '../stores/api'
 import { storeToRefs } from 'pinia'
 
@@ -9,11 +10,27 @@ const podcastStore = usePodcastStore()
 const { episodes } = storeToRefs(podcastStore)
 const loading = ref(false)
 const route = useRoute()
+
 const dados = ref(
-  Object.values(apresentadores.canais).find(item => item.id === route.params.id) || null
+  Object.values(data.canais).find(item => item.id === route.params.id) || null
 )
 
+const getApresentadoresDoCanal = (canalId) => {
+  return Object.values(dataApr.apresentadores).filter(
+    ap => ap.canalIds.includes(canalId)
+  )
+}
 
+
+const apresentadoresDoCanal = computed(() => {
+  if (!dados.value) return []
+  return getApresentadoresDoCanal(dados.value.id)
+})
+
+
+const temApresentadores = computed(() => {
+  return apresentadoresDoCanal.value.length > 0
+})
 
 const loadEpisodes = async (playlistId) => {
   loading.value = true
@@ -53,7 +70,7 @@ onMounted(async () => {
 watch(() => route.params.id, async (novoId, antigoId) => {
   if (novoId === antigoId) return
 
-  dados.value = Object.values(apresentadores.canais).find(item => item.id === novoId) || null
+  dados.value = Object.values(data.canais).find(item => item.id === novoId) || null
 
   if (dados.value?.playlistId) {
     await loadEpisodes(dados.value.playlistId)
@@ -107,7 +124,6 @@ watch(() => route.params.id, async (novoId, antigoId) => {
                   <h3 class="text-left">{{ dados.dialogoHorarios }}</h3>
                 </v-sheet>
               </v-col>
-
             </v-row>
 
             <v-row class="mt-4">
@@ -139,40 +155,72 @@ watch(() => route.params.id, async (novoId, antigoId) => {
       </v-container>
     </section>
 
-
-      <section v-if="dados.id !== 'redfoxJornalismo'" >
-        <v-container
-          fluid
-          style="max-width: 1350px; min-height: 70vh; text-align: center;"
-        >
-          <v-col>
-            <h1 class="text-h4 mb-8">Nossos Principais Convidados</h1>
-
-            <v-row v-if="dados?.fotosConvidados">
-              <v-col
-                v-for="(foto, index) in dados.fotosConvidados"
-                :key="index"
-                cols="12"
-                sm="6"
-                md="4"
+    <section v-if="temApresentadores">
+      <v-container
+        fluid
+        style="max-width: 1350px; min-height: 50vh; text-align: center; "
+      >
+        <v-col>
+          <v-row style="display: flex; align-items: center; justify-content: center">
+            <v-col 
+              v-for="apresentador in apresentadoresDoCanal"
+              :key="apresentador.id"
+              cols="12"
+              sm="6"
+              md="6"
+            >
+            <h1 class="text-h4 mb-8 text-md-h2">{{ apresentador.titulo }}</h1>
+            <br>
+            <p>{{ apresentador.subtitulo }}</p>
+              <v-img
+                style="border-radius: 50px;"
+                :src="apresentador.imagem"
+                :alt="apresentador.name"
+                max-width="500"
+                max-height="400"
+                class="mx-auto"
               >
-                <v-img
-                  style="border-radius: 50px;"
-                  :src="foto"
-                  :alt="`Convidado ${index + 1}`"
-                  max-width="300"
-                  max-height="400"
-                  class="mx-auto"
-                />
-              </v-col>
-            </v-row>
 
-            <div v-else>
-              <p>Nenhuma imagem de convidado disponível.</p>
-            </div>
-          </v-col>
-        </v-container>
-      </section>
+              </v-img>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-container>
+    </section>
+
+    <section v-if="dados.id !== 'redfoxJornalismo'" >
+      <v-container
+        fluid
+        style="max-width: 1350px; min-height: 70vh; text-align: center;"
+      >
+        <v-col>
+          <h1 class="text-h4 mb-8">Nossos Principais Convidados</h1>
+
+          <v-row v-if="dados?.fotosConvidados">
+            <v-col
+              v-for="(foto, index) in dados.fotosConvidados"
+              :key="index"
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <v-img
+                style="border-radius: 50px;"
+                :src="foto"
+                :alt="`Convidado ${index + 1}`"
+                max-width="300"
+                max-height="400"
+                class="mx-auto"
+              />
+            </v-col>
+          </v-row>
+
+          <div v-else>
+            <p>Nenhuma imagem de convidado disponível.</p>
+          </div>
+        </v-col>
+      </v-container>
+    </section>
 
 
     <section>
@@ -212,12 +260,10 @@ watch(() => route.params.id, async (novoId, antigoId) => {
         </v-col>
       </v-container>
     </section>
-
-    
   </div>
 
   <div v-else>
-    <p>Apresentador não encontrado</p>
+    <p>Canal não encontrado</p>
   </div>
 </template>
 
@@ -340,4 +386,7 @@ watch(() => route.params.id, async (novoId, antigoId) => {
   background-color: #e70038 !important;
   color: #fff !important;
 }
+
+
+
 </style>
