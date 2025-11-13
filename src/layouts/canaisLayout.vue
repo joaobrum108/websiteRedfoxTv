@@ -167,7 +167,7 @@ watch(() => route.params.id, async (novoId, antigoId) => {
               :key="apresentador.id"
               cols="12"
               sm="6"
-              md="6"
+              md="7"
             >
             <h1 class="text-h4 mb-8 text-md-h2">{{ apresentador.titulo }}</h1>
             <br>
@@ -180,7 +180,6 @@ watch(() => route.params.id, async (novoId, antigoId) => {
                 max-height="400"
                 class="mx-auto"
               >
-
               </v-img>
             </v-col>
           </v-row>

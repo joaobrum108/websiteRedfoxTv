@@ -1,12 +1,12 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 
-const isDesktop = ref(window.innerWidth > 768);
-const isMobile = ref(window.innerWidth <= 768);
+const windowWidth = ref(window.innerWidth);
+const isMobile = ref(window.innerWidth < 1024); 
 
 function handleResize() {
-  isMobile.value = window.innerWidth <= 768;
-  isDesktop.value = window.innerWidth > 768;
+  windowWidth.value = window.innerWidth;
+  isMobile.value = window.innerWidth < 1024;
 }
 
 onMounted(() => {
@@ -16,60 +16,58 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize);
 });
-
-
 </script>
 
 <template>
-  <header v-if="isDesktop" class="header">
+
+  <header v-if="!isMobile" class="header desktop-header">
     <v-container max-width="1357" class="d-flex align-center justify-space-between header-container">
-     <router-link to="/">
-       <img src="../assets/redfoxtv.png" class="logo-img" alt=""></img>
-     </router-link>
+      <v-col cols="auto" md="auto" sm="auto">
+        <router-link to="/">
+          <img src="../assets/redfoxtv.png" class="logo-img" alt="Red Fox TV">
+        </router-link>
+      </v-col>
       
-      <v-col cols="auto" class="menu">
+      <v-col cols="auto" md="8" lg="8" class="menu">
         <RouterLink to="/" class="nav-link">
           <p class="menu-item">Home</p>
         </RouterLink>
         <RouterLink to="/canal/RedfoxConecta" class="nav-link">
-          <p class="menu-item">RedFox Conecta </p>
+          <p class="menu-item">RedFox Conecta</p>
         </RouterLink>
         <RouterLink to="/canal/redfoxSport" class="nav-link">
-          <p class="menu-item"> RedFox Sports</p>
+          <p class="menu-item">RedFox Sports</p>
         </RouterLink>
         <RouterLink to="/canal/redfoxPets" class="nav-link">
           <p class="menu-item">RedFox Pets</p>
         </RouterLink>
-        <router-link to="/canal/redfoxJornalismo" class="nav-link"><p class="menu-item">Jornalismo 360</p></router-link>
-      </v-col>
-      <v-col cols="auto">
-        <a href="https://www.youtube.com/@redfoxtvoficial" class="watch-link" target="_blank" rel="noopener noreferrer">
-           <p class="watch-btn">Assista Agora</p>
-        </a>
+        <router-link to="/canal/redfoxJornalismo" class="nav-link">
+          <p class="menu-item">Jornalismo 360</p>
+        </router-link>
       </v-col>
     </v-container>
   </header>
 
- <header class="header-mobile" v-if="isMobile">
-  <v-container class="d-flex align-center justify-space-between" style="height: 100%;">
-    <router-link to="/">
-      <img src="../assets/redfoxtv.png" class="logo-mobile" alt="Red Fox TV">
-    </router-link>
-    
-    <v-btn
-      class="watch-btn-mobile"
-       href="https://www.youtube.com/@redfoxtvoficial"
-       target="_blank"
-      rel="noopener noreferrer"
->
-  <p>Assista Agora</p>
-</v-btn>
-
-  </v-container>
-</header>
+  <header v-else class="header mobile-header">
+    <v-container class="d-flex align-center justify-space-between mobile-container">
+      <router-link to="/">
+        <img src="../assets/redfoxtv.png" class="logo-mobile" alt="Red Fox TV">
+      </router-link>
+      
+      <v-btn
+        class="watch-btn-mobile"
+        href="https://www.youtube.com/@redfoxtvoficial"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <p>Assista Agora</p>
+      </v-btn>
+    </v-container>
+  </header>
 </template>
 
 <style scoped>
+
 .header {
   background-color: rgba(0, 0, 0, 0.1); 
   backdrop-filter: blur(10px); 
@@ -83,47 +81,19 @@ onUnmounted(() => {
   height: 12vh;
   min-height: 60px;
   max-height: 80px;
-  transition: all 0.3s ease; 
+  transition: all 0.3s ease;
 }
 
-.header-container {
+
+.desktop-header .header-container {
   height: 100%;
   padding: 0 16px;
 }
 
-.header-mobile {
-  background-color: rgba(0, 0, 0, 0.1) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  border-bottom: solid rgba(33, 33, 33, 0.5) 1px !important;
-  position: relative ;
 
-  height: 12vh !important;
-  min-height: 60px !important;
-  max-height: 80px !important;
-}
-
-
-.logo-mobile {
-  width: auto;
-  max-width: 130px;
-  height: auto;
-}
-
-.watch-btn-mobile {
-  background: linear-gradient(135deg, #ff4444, #cc0000);
-  color: white;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.4s ease;
-  margin: 0;
-  text-decoration: none;
-  display: inline-block;
-  border: none;
-  font-size: 0.9rem;
-  white-space: nowrap;
+.mobile-header .mobile-container {
+  height: 100%;
+  padding: 0 16px;
 }
 
 .logo-img {
@@ -131,6 +101,13 @@ onUnmounted(() => {
   height: auto;
   object-fit: contain;
 }
+
+.logo-mobile {
+  width: auto;
+  max-width: 130px;
+  height: auto;
+}
+
 
 .menu {
   display: flex;
@@ -158,126 +135,94 @@ onUnmounted(() => {
   border-radius: 8px;
 }
 
-
-.menu-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.6s ease;
-}
-
-.menu-item:hover::before {
-  left: 100%;
-}
-
-.menu-item:hover {
-  color: #ff4444;
-  transform: translateY(-3px) scale(1.05);
-  text-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
-  background: rgba(255, 68, 68, 0.1);
-  box-shadow: 
-    0 5px 15px rgba(255, 68, 68, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.menu-item::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #ff4444, #ff6b6b);
-  transition: all 0.4s ease;
-  transform: translateX(-50%);
-}
-
-.menu-item:hover::after {
-  width: 80%;
+@media (hover: hover) and (pointer: fine) {
+  .menu-item:hover {
+    color: #ff4444;
+    transform: translateY(-3px) scale(1.05);
+    text-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
+    background: rgba(255, 68, 68, 0.1);
+  }
+  
+  .menu-item:hover::after {
+    width: 80%;
+  }
 }
 
 
-.watch-btn {
+.watch-btn-mobile {
   background: linear-gradient(135deg, #ff4444, #cc0000);
   color: white;
-  padding: 12px 24px;
+  padding: 10px 18px;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.4s ease;
   margin: 0;
   text-decoration: none;
-  display: inline-block;
   border: none;
-  position: relative;
-  overflow: hidden;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.watch-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: left 0.6s ease;
-}
-
-.watch-btn:hover::before {
-  left: 100%;
-}
-
-.watch-btn:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 
-    0 8px 25px rgba(255, 68, 68, 0.4),
-    0 0 0 2px rgba(255, 68, 68, 0.2);
-  background: linear-gradient(135deg, #ff6b6b, #ff4444);
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 5px rgba(255, 68, 68, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 15px rgba(255, 68, 68, 0.8);
-  }
-}
+@media (max-width: 1023px) {
 
-.watch-btn {
-  animation: pulse-glow 3s infinite;
-}
-
-@media (max-width: 768px) {
   .header {
     height: 10vh;
     min-height: 50px;
+    max-height: 70px;
   }
   
-  .logo-img {
-    max-width: 50px !important;
+  .logo-mobile {
+    max-width: 110px;
   }
   
-  .menu {
-    gap: 1rem;
+  .watch-btn-mobile {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .header {
+    height: 9vh;
+    min-height: 45px;
+    max-height: 60px;
   }
   
-  .menu-item {
-    padding: 8px 12px;
-    font-size: 0.9rem;
+  .logo-mobile {
+    max-width: 100px;
   }
   
-  .watch-btn {
-    padding: 10px 18px;
-    font-size: 0.9rem;
+  .watch-btn-mobile {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  
+  .header {
+    height: 8vh;
+    min-height: 40px;
+  }
+  
+  .logo-mobile {
+    max-width: 90px;
+  }
+  
+  .mobile-container {
+    padding: 0 12px !important;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .menu-item,
+  .watch-btn-mobile {
+    transition: none;
   }
 }
 </style>
