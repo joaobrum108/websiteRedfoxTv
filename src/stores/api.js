@@ -60,13 +60,30 @@ export const usePodcastPlaylist = defineStore("podcastPlaylist", {
         }
 
         const data = await response.json();
-        this.playlist = data.items.map((item) => ({
-          id: item.id.videoId,
-          title: item.snippet.title,
-          description: item.snippet.description,
-          thumbnail: item.snippet.thumbnails.high.url,
-          link: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-        }));
+
+        const titulosProcessados = new Set();
+
+        this.playlist = data.items
+          .map((item) => ({
+            id: item.id.videoId,
+            title: item.snippet.title,
+            description: item.snippet.description,
+            thumbnail: item.snippet.thumbnails.high.url,
+            link: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+          }))
+          .filter((episode) => {
+
+            if (titulosProcessados.has(episode.title)) {
+              console.log(`Vídeo duplicado ignorado: ${episode.title}`);
+              return false;
+            }
+
+            titulosProcessados.add(episode.title);
+            return true;
+          });
+
+        console.log(`Playlist processada: ${this.playlist.length} vídeos únicos`);
+
       } catch (error) {
         console.error("Erro ao buscar episódios:", error);
       }
