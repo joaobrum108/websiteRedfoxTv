@@ -162,6 +162,7 @@
 
         <v-col cols="12" class="pt-4">
           <v-btn 
+            @click="handleContato"
             size="x-large" 
             color="#db0e35" 
             dark 
@@ -180,6 +181,10 @@
 import patrocinadores from '../data/patrocinadores';
 
 const lerDados = patrocinadores.patrocinadores.patrocinadores;
+
+const handleContato = () => {
+  window.open("https://api.whatsapp.com/send?phone=5511915765111" , "_blank");
+}
 </script>
 
 <style scoped>

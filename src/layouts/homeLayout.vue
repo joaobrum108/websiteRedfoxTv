@@ -20,12 +20,12 @@
               <v-col cols="12">
                 <v-row class="d-flex justify-center" dense>
                   <v-col cols="auto">
-                    <v-btn class="btn1" color="#e70038" style="text-transform: capitalize;" size="large">
-                      Conheça Nossos Canais
+                    <v-btn @click="handleCanais" class="btn1" color="#e70038" style="text-transform: capitalize;" size="large">
+                      BAIXE NOSSOS APLICATIVOS
                     </v-btn>
                   </v-col>
                   <v-col cols="auto">
-                    <v-btn class="btn2" outlined style="text-transform: capitalize;" size="large">
+                    <v-btn @click="handleYT" class="btn2" outlined style="text-transform: capitalize;" size="large">
                       Assista Agora
                     </v-btn>
                   </v-col>
@@ -132,6 +132,14 @@
 import programasDoCanal from '../data/canais'
 
 const canais = Object.values(programasDoCanal.canais)
+
+const handleCanais = () => {
+  window.open('https://linktr.ee/redfoxtv', '_blank')
+}
+
+const handleYT = () => {
+  window.open('https://www.youtube.com/@redfoxtvoficial', '_blank')
+}
 </script>
 
 <style scoped>
