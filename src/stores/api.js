@@ -29,6 +29,7 @@ export const usePodcastStore = defineStore("podcast", {
           thumbnail: item.snippet.thumbnails.high.url,
           link: `https://www.youtube.com/watch?v=${item.id.videoId}`,
         }));
+        this.episodes.filter((episode) => episode.title === "Redfox Conecta");
       } catch (error) {
         console.error("Erro ao buscar episódios:", error);
       }
