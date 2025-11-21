@@ -2,7 +2,7 @@
     <v-container fluid class="footer-container">
         <v-row align="center" justify="center" class="footer-content">
             <v-col cols="12" class="text-center">
-                <p class="copyright-text">&copy; 2025 RedFox TV. Todos os direitos reservados.</p>
+                <p class="copyright-text">&copy; {{ new Date().getFullYear() }} RedFox TV. Todos os direitos reservados.</p>
             </v-col>
         </v-row>
     </v-container>
@@ -36,7 +36,7 @@
     line-height: 1.4;
 }
 
-/* Media Queries para responsividade */
+
 @media (max-width: 768px) {
     .footer-container {
         padding: 32px 16px;
