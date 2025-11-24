@@ -7,7 +7,7 @@
       <v-row>
         <v-col cols="12">
           <h1 class="text-h2 mb-8 font-weight-bold">
-            Nossos <span style="color: #db0e35;">Patrocinadores</span>
+            Nossos principais <span style="color: #db0e35;">Patrocinadores</span>
           </h1>
           <h4 class="text-h6 mb-8" style="color: #A6A6A6;">
             Empresas que acreditam na nossa visão e fortalecem o nosso compromisso <br>
