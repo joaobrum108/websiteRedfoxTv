@@ -64,7 +64,7 @@
           >
             <v-card
               class="apresentador-card d-flex flex-column"
-              style="border: #222222 1px solid; border-radius: 16px; width: 100%; max-width: 400px; min-height: 374px;"
+              style="border: #222222 1px solid; border-radius: 16px; width: 100%; max-width: 390px; min-height: 374px;"
               outlined
             >
               <div class="flex-grow-1">
@@ -72,7 +72,7 @@
                   <v-img
                     :src="canal.imagem"
                     class="card-image"
-                    aspect-ratio="1.2"
+                    aspect-ratio="1"
                     cover
                   >
                     <v-container class="card-overlay" align="end">
