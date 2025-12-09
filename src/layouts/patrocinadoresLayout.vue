@@ -21,56 +21,55 @@
           <p class="text-h4 font-weight-bold">Parceiros <span>Oficiais</span></p>
         </v-col>
 
-        <v-slide-group
-          show-arrows
-          class="pa-4 custom-slide-group"
-          center-active
-        >
-          <v-slide-group-item
-            v-for="patrocinador in lerDados"
-            :key="patrocinador.id"
-            v-slot="{ isSelected, toggle, selectedClass }"
-          >
-            <v-card
-              elevation="10"
-              class="patrocinador-card text-center mx-4 d-flex flex-column"
-              :class="['mx-2', selectedClass]"
-              @click="toggle"
-              style="width: 280px; min-height: 380px;"
-            >
-              <div class="card-image-container">
-                <img 
-                  :src="patrocinador.imagem" 
-                  :alt="patrocinador.titulo || 'Patrocinador'" 
-                  class="card-image"
+
+        <v-col cols="12" class="overflow-hidden py-8">
+          <v-container class="carousel-container">
+            <div class="carousel-track" ref="carouselTrack">
+              <div
+                v-for="patrocinador in duplicatedPatrocinadores"
+                :key="`first-${patrocinador.id}`"
+                class="carousel-item"
+              >
+                <v-card
+                  elevation="10"
+                  class="patrocinador-card text-center d-flex flex-column"
+                  style="width: 280px; min-height: 380px; max-height: 381px;"
                 >
-                <div class="card-overlay"></div>
+                  <div class="card-image-container">
+                    <img 
+                      :src="patrocinador.imagem" 
+                      :alt="patrocinador.titulo || 'Patrocinador'" 
+                      class="card-image"
+                    >
+                    <div class="card-overlay"></div>
+                  </div>
+                  <div class="card-content pa-4 d-flex flex-column flex-grow-1">
+                    <v-card-title class="text-h6 font-weight-bold justify-center px-0">
+                      {{ patrocinador.titulo || 'Sem título' }}
+                    </v-card-title>
+                    <div class="tipo-badge mb-3">
+                      {{ patrocinador.tipo }}
+                    </div>
+                    <v-card-text class="flex-grow-1 px-0">
+                      {{ patrocinador.descricao }}
+                    </v-card-text>
+                    <v-btn
+                      v-if="patrocinador.link"
+                      :href="patrocinador.link"
+                      target="_blank"
+                      class="mt-auto"
+                      color="#db0e35"
+                      variant="outlined"
+                      size="small"
+                    >
+                      Visitar Site
+                    </v-btn>
+                  </div>
+                </v-card>
               </div>
-              <div class="card-content pa-4 d-flex flex-column flex-grow-1">
-                <v-card-title class="text-h6 font-weight-bold justify-center px-0">
-                  {{ patrocinador.titulo || 'Sem título' }}
-                </v-card-title>
-                <div class="tipo-badge mb-3">
-                  {{ patrocinador.tipo }}
-                </div>
-                <v-card-text class="flex-grow-1 px-0">
-                  {{ patrocinador.descricao }}
-                </v-card-text>
-                <v-btn
-                  v-if="patrocinador.link"
-                  :href="patrocinador.link"
-                  target="_blank"
-                  class="mt-auto"
-                  color="#db0e35"
-                  variant="outlined"
-                  size="small"
-                >
-                  Visitar Site
-                </v-btn>
-              </div>
-            </v-card>
-          </v-slide-group-item>
-        </v-slide-group>
+            </div>
+          </v-container>
+        </v-col>
       </v-row>
     </v-container>
   </section>
@@ -178,21 +177,78 @@
 </template>
 
 <script setup>
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import patrocinadores from '../data/patrocinadores';
 
 const lerDados = patrocinadores.patrocinadores.patrocinadores;
+const carouselTrack = ref(null);
+
+const duplicatedPatrocinadores = computed(() => {
+
+  return [...lerDados, ...lerDados, ...lerDados];
+});
 
 const handleContato = () => {
   window.open("https://api.whatsapp.com/send?phone=5511915765111" , "_blank");
 }
+
+let isPaused = false;
+
+onMounted(() => {
+  const track = carouselTrack.value;
+  if (track) {
+    track.addEventListener('mouseenter', () => {
+      isPaused = true;
+      track.style.animationPlayState = 'paused';
+    });
+    
+    track.addEventListener('mouseleave', () => {
+      isPaused = false;
+      track.style.animationPlayState = 'running';
+    });
+  }
+});
+
+onBeforeUnmount(() => {
+  const track = carouselTrack.value;
+  if (track) {
+    track.removeEventListener('mouseenter', () => {});
+    track.removeEventListener('mouseleave', () => {});
+  }
+});
 </script>
 
 <style scoped>
+.carousel-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 24px;
+  animation: scroll-left 40s linear infinite;
+  width: fit-content;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.carousel-item {
+  flex-shrink: 0;
+}
+
 .patrocinador-card {
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-bottom: 2rem;
   cursor: pointer;
   border: 1px solid #404040;
   overflow: hidden;
@@ -203,13 +259,14 @@ const handleContato = () => {
   transform: translateY(-8px);
   box-shadow: 0 12px 28px rgba(219, 14, 53, 0.2);
   border: 1px solid #db0e35;
-  cursor: pointer;
 }
 
 .card-image-container {
   position: relative;
   overflow: hidden;
+  min-height: 179px;
   height: 180px;
+  max-height: 181px;
 }
 
 .card-image {
@@ -254,24 +311,6 @@ const handleContato = () => {
   letter-spacing: 0.5px;
 }
 
-.custom-slide-group {
-  padding: 2rem 0;
-}
-
-.custom-slide-group :deep(.v-slide-group__next),
-.custom-slide-group :deep(.v-slide-group__prev) {
-  background-color: rgba(219, 14, 53, 0.8);
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-}
-
-.custom-slide-group :deep(.v-slide-group__next:hover),
-.custom-slide-group :deep(.v-slide-group__prev:hover) {
-  background-color: #db0e35;
-  transform: scale(1.1);
-}
-
 .beneficio-item {
   padding: 2rem 1rem;
   height: 100%;
@@ -313,30 +352,6 @@ const handleContato = () => {
   margin: 0 auto;
 }
 
-.cta-section {
-  background: linear-gradient(135deg, #380f17 0%, #221013 100%);
-  border: 1px solid #4e0c19;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(219, 14, 53, 0.15);
-}
-
-
-.patrocinador-card {
-  animation: fadeInUp 0.6s ease forwards;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
 @media (max-width: 960px) {
   .patrocinador-card {
     width: 240px !important;
@@ -346,6 +361,10 @@ const handleContato = () => {
   .card-image-container {
     height: 150px;
   }
+  
+  .carousel-track {
+    animation: scroll-left 30s linear infinite;
+  }
 }
 
 @media (max-width: 600px) {
@@ -354,9 +373,8 @@ const handleContato = () => {
     min-height: 380px !important;
   }
   
-  .custom-slide-group :deep(.v-slide-group__next),
-  .custom-slide-group :deep(.v-slide-group__prev) {
-    display: none;
+  .carousel-track {
+    animation: scroll-left 25s linear infinite;
   }
 }
 </style>
